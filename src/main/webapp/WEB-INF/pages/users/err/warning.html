@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Error</title>
+    <style type="text/css">
+        .parent {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            overflow: auto;
+        }
+
+        .block {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        body {
+            background: grey;
+        }
+
+        td {
+            font: 1.2em "Fira Sans", sans-serif;
+            background: lightslategray;
+        }
+
+        h1 {
+            font: 1.6em "Fira Sans", sans-serif;
+            text-align: center;
+            color: firebrick;
+            font-weight: 900;
+        }
+        .select {
+            background: darkslategrey;
+            text-align: center;
+            font-weight: 900;
+            color: lightslategrey;
+        }
+
+
+    </style>
+</head>
+<body>
+<div class="parent">
+    <div class="block">
+        <h1>ERROR</h1>
+            <h2 th:text="${msg}"></h2>
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

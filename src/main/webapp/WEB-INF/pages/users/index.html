@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Users DB</title>
+    <style type="text/css">
+        .parent {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            overflow: auto;
+        }
+
+        .block {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        body {
+            background: grey;
+        }
+
+        td {
+            font: 1.2em "Fira Sans", sans-serif;
+            background: lightslategray;
+        }
+
+        h1 {
+            font: 1.6em "Fira Sans", sans-serif;
+            text-align: center;
+            color: firebrick;
+            font-weight: 900;
+        }
+
+        .select {
+            background: darkslategrey;
+            text-align: center;
+            font-weight: 900;
+            color: lightslategrey;
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+
+
+    </style>
+</head>
+
+<body>
+
+
+<div class="parent">
+    <div class="block">
+        <h2>Users</h2>
+        <div th:switch="${users}">
+            <h2 th:case="null">No users found!</h2>
+            <div th:case="*">
+                <table>
+                    <tr>
+                        <td class="select">ID</td>
+                        <td class="select">Name</td>
+                        <td class="select">Last Name</td>
+                        <td class="select">Action</td>
+                    </tr>
+                    <div th:each="user : ${users}">
+                        <tr>
+                            <td th:text="${user.getId()}">id</td>
+                            <td th:text="${user.getFirstName()}">brand</td>
+                            <td th:text="${user.getLastName()}">model</td>
+                            <td>
+                                <a th:href="@{update/{id}(id=${user.getId})}">Edit</a>
+                                <a th:href="@{delete/{id}(id=${user.getId})}">Delete</a>
+                            </td>
+                        </tr>
+                    </div>
+                </table>
+            </div>
+            <p><a href="/create">Create user</a></p>
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>
