@@ -68,8 +68,8 @@
                     <div th:each="user : ${users}">
                         <tr>
                             <td th:text="${user.getId()}">id</td>
-                            <td th:text="${user.getFirstName()}">brand</td>
-                            <td th:text="${user.getLastName()}">model</td>
+                            <td th:text="${user.getFirstName()}">First Name</td>
+                            <td th:text="${user.getLastName()}">Last Name</td>
                             <td>
                                 <a th:href="@{update/{id}(id=${user.getId})}">Edit</a>
                                 <a th:href="@{delete/{id}(id=${user.getId})}">Delete</a>

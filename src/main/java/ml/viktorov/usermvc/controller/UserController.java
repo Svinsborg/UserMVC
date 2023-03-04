@@ -2,20 +2,21 @@ package ml.viktorov.usermvc.controller;
 
 import ml.viktorov.usermvc.model.User;
 import ml.viktorov.usermvc.service.UserServiceImp;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class UserController {
 
+
     private final UserServiceImp userService;
-    @Autowired
-    public UserController(UserServiceImp service) {
-        this.userService = service;
+
+    public UserController(UserServiceImp userService) {
+        this.userService = userService;
     }
 
 
@@ -32,9 +33,16 @@ public class UserController {
     }
 
     @PostMapping("/create")
-    public String saveUser(User user){
-        userService.saveUser(user);
-        return "redirect:/users";
+    public String saveUser(@RequestParam("firstName") String name,
+                           @RequestParam("lastName") String lastName,
+                           Model model){
+        if (name == "" && lastName == ""){
+            model.addAttribute("msg", "All fields must be filled!");
+            return "users/err/warning";
+        } else {
+            userService.saveUser(name,lastName);
+            return "redirect:/users";
+        }
     }
 
     @GetMapping("delete/{id}")
@@ -51,8 +59,11 @@ public class UserController {
     }
 
     @PostMapping("/update")
-    public String update(User user){
-        userService.updateUser(user);
+    public String update(@RequestParam("id") String id,
+                         @RequestParam("firstName") String name,
+                         @RequestParam("lastName") String lastName,
+                         Model model){
+        userService.updateUser(Long.valueOf(id),name,lastName);
         return "redirect:/users";
     }
 

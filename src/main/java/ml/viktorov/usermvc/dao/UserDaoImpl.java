@@ -25,11 +25,11 @@ public class UserDaoImpl implements UserDao{
 
     @Override
     public User findById(Long id) {
-        if (id > 0 && id < users.size()){
-            return users.get(Math.toIntExact(id));
-        } else{
-            return null;
-        }
+        Session session = sessionFactory.openSession();
+        User user = session.createQuery("FROM User u WHERE u.id=:id",User.class )
+                .setParameter("id",id)
+                .getSingleResult();
+        return user;
     }
 
     @Override
@@ -39,23 +39,23 @@ public class UserDaoImpl implements UserDao{
     }
 
     @Override
-    public User saveUser(User user) {
-        user.setId(user.getId());
-        users.add(Math.toIntExact(user.getId()),user);
-        return users.get(Math.toIntExact(user.getId()));
+    public void saveUser(String firstName, String lastName) {
+        User user = new User(firstName,lastName);
+        sessionFactory.getCurrentSession().save(user);
     }
 
 
     @Override
-    public User updateUser(User user) {
-        int id = Math.toIntExact(user.getId());
-        users.set(id,user);
-        return users.get(Math.toIntExact(user.getId()));
+    public void updateUser(Long id, String firstName, String lastName) {
+        User user = findById(id);
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+        sessionFactory.getCurrentSession().update(user);
     }
 
     @Override
     public void deleteById(Long id) {
-        User user = users.get(Math.toIntExact(id));
-        users.remove(user);
+        User user = findById(id);
+        sessionFactory.getCurrentSession().remove(user);
     }
 }
