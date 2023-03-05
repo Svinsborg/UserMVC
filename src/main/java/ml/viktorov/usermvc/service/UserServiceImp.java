@@ -1,6 +1,6 @@
 package ml.viktorov.usermvc.service;
 
-import ml.viktorov.usermvc.dao.UserDaoImpl;
+import ml.viktorov.usermvc.dao.UserDaoEMImpl;
 import ml.viktorov.usermvc.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,12 +11,10 @@ import java.util.List;
 @Service("userServiceImp")
 public class UserServiceImp implements UserService{
 
-
-
-    private final UserDaoImpl userDaoImp;
+    private final UserDaoEMImpl userDaoImp;
 
     @Autowired
-    public UserServiceImp(UserDaoImpl userDaoImp) {
+    public UserServiceImp(UserDaoEMImpl userDaoImp) {
         this.userDaoImp = userDaoImp;
     }
 

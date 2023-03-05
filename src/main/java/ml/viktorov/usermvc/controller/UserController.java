@@ -1,7 +1,7 @@
 package ml.viktorov.usermvc.controller;
 
 import ml.viktorov.usermvc.model.User;
-import ml.viktorov.usermvc.service.UserServiceImp;
+import ml.viktorov.usermvc.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,15 +12,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class UserController {
 
+    private final UserService userService;
 
-    private final UserServiceImp userService;
-
-    public UserController(UserServiceImp userService) {
+    public UserController(UserService userService) {
         this.userService = userService;
     }
 
 
-    @GetMapping(value = { "/", "/index", "/users" })
+    @GetMapping(value = {"/", "/index", "/users"})
     public String index(Model model) {
 
         model.addAttribute("users", userService.getAllUsers());
@@ -28,42 +27,53 @@ public class UserController {
     }
 
     @GetMapping("/create")
-    public String createUser(){
+    public String createUser() {
         return "users/create";
     }
 
     @PostMapping("/create")
     public String saveUser(@RequestParam("firstName") String name,
                            @RequestParam("lastName") String lastName,
-                           Model model){
-        if (name == "" && lastName == ""){
+                           Model model) {
+        if (name == "" && lastName == "") {
             model.addAttribute("msg", "All fields must be filled!");
             return "users/err/warning";
         } else {
-            userService.saveUser(name,lastName);
+            userService.saveUser(name, lastName);
             return "redirect:/users";
         }
     }
 
     @GetMapping("delete/{id}")
-    public String deleteUser(@PathVariable("id") Long id){
-        userService.deleteById(id);
-        return "redirect:/users";
+    public String deleteUser(@PathVariable("id") Long id, Model model) {
+        User user = userService.findById(id);
+        if (user == null) {
+            model.addAttribute("msg", "User not found");
+            return "users/err/warning";
+        } else {
+            userService.deleteById(id);
+            return "redirect:/users";
+        }
     }
 
     @GetMapping("/update/{id}")
-    public String updateUser(@PathVariable ("id") Long id, Model model){
+    public String updateUser(@PathVariable("id") Long id, Model model) {
         User user = userService.findById(id);
-        model.addAttribute("user", user);
-        return "users/update";
+        if (user == null) {
+            model.addAttribute("msg", "User not found");
+            return "users/err/warning";
+        } else {
+            model.addAttribute("user", user);
+            return "users/update";
+        }
     }
 
     @PostMapping("/update")
     public String update(@RequestParam("id") String id,
                          @RequestParam("firstName") String name,
                          @RequestParam("lastName") String lastName,
-                         Model model){
-        userService.updateUser(Long.valueOf(id),name,lastName);
+                         Model model) {
+        userService.updateUser(Long.valueOf(id), name, lastName);
         return "redirect:/users";
     }
 
