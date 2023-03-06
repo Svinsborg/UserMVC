@@ -4,10 +4,8 @@ import ml.viktorov.usermvc.model.User;
 import ml.viktorov.usermvc.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+
 
 @Controller
 public class UserController {
@@ -44,7 +42,7 @@ public class UserController {
         }
     }
 
-    @GetMapping("delete/{id}")
+    @DeleteMapping("delete/{id}")
     public String deleteUser(@PathVariable("id") Long id, Model model) {
         User user = userService.findById(id);
         if (user == null) {
@@ -68,7 +66,7 @@ public class UserController {
         }
     }
 
-    @PostMapping("/update")
+    @PatchMapping("/update")
     public String update(@RequestParam("id") String id,
                          @RequestParam("firstName") String name,
                          @RequestParam("lastName") String lastName,

@@ -1,7 +1,6 @@
 package ml.viktorov.usermvc.config;
 
 import org.apache.tomcat.dbcp.dbcp2.BasicDataSource;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -26,7 +25,7 @@ public class EntityManagerConfig {
 
     private final Environment environment;
 
-    @Autowired
+
     public EntityManagerConfig(Environment environment) {
         this.environment = environment;
     }

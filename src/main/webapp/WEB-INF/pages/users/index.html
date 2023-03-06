@@ -72,7 +72,11 @@
                             <td th:text="${user.getLastName()}">Last Name</td>
                             <td>
                                 <a th:href="@{update/{id}(id=${user.getId})}">Edit</a>
-                                <a th:href="@{delete/{id}(id=${user.getId})}">Delete</a>
+                            </td>
+                            <td>
+                                <form th:method="DELETE" th:action="@{delete/{id}(id=${user.getId})}">
+                                    <input type="submit" value="DELETE"/>
+                                </form>
                             </td>
                         </tr>
                     </div>

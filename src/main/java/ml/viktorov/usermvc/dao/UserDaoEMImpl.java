@@ -1,10 +1,8 @@
 package ml.viktorov.usermvc.dao;
 
 import ml.viktorov.usermvc.model.User;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
@@ -14,12 +12,10 @@ import java.util.List;
 public class UserDaoEMImpl implements UserDao {
 
     @PersistenceContext
-    @Qualifier("entityManagerFactoryBean")
     private EntityManager entityManager;
 
 
     @Override
-    @Transactional(readOnly = true)
     public User findById(Long id) {
         TypedQuery<User> user = entityManager.createQuery("FROM User u WHERE u.id=:id", User.class);
         user.setParameter("id" ,id);
@@ -27,7 +23,6 @@ public class UserDaoEMImpl implements UserDao {
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<User> getAllUsers() {
         return entityManager.createQuery("from User", User.class).getResultList();
     }
